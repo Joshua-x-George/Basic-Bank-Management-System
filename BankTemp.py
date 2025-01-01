@@ -1,10 +1,16 @@
 import random
 from graphT import plotgraph
 
+#to change    ---> better credit score calculation system.
+#             ---> switch case statemnents instead of if Statements
+#			  ---> Trash security (needs better security)
+#			  ---> Long if elif else statements shorten IT!
+#			  ---> Needs to have decimal support (and use try and except statements) //used if statements for better if logic understanding
 #constants
-domains = ('gmail.com','yahoo.com','hotmail.com','icloud.com','yahoo.in','ymail.com','outlook.com','@email.com')
+domains = ('gmail.com','yahoo.com','hotmail.com','icloud.com','yahoo.in','ymail.com','outlook.com','email.com')
+
 is_running = True
-#format for user-> users = {user:{password:<str>,email:<str>,name:<str>,phone:<str>,balance:<int>,creditscore:<list>}...etc}
+#format for user-> users = {user:{password:<str>,email:<str>,name:<str>,phone:<str>,balance:<int>,creditscore:<list(past 15 credit changes)>}...etc}
 users = {'Tuser': {'password': 'pass', 'email': '@gmail.com', 'name': 'Tuser', 'phone': '0000000000', 'creditscore': [525,600,725,500,525,550,600,525,575,625,500,750,525,550,650], 'balance': 5000}}
 
 print("*****************BANKING PROGRAM*****************")
@@ -61,9 +67,9 @@ while is_running:
              │2.deposit Money       │
              │3.withdraw Money      │
              │4.Money Transfer      │
-             │5.Show Credit score   │
+             │5.Show Credit score   │//credit score ranges from 300 to 750
              │6.User details        │
-             │7.Lottery             │
+             │7.Lottery             │//note ---> ik lottery ain't an actual bank system (prob) but it's just there cause i got bored
              │8.Home                │
              └──────────────────────┘
                               ''')
@@ -75,13 +81,13 @@ while is_running:
                             
                         elif opt == '1':
                             #To check balance
-                            print("Your Balance is ₹",users[user]['balance'],sep = '')
+                            print("Your Balance is $",users[user]['balance'],sep = '')
                             input("(Press <Enter> to continue)")
                             
                         elif opt == '2':
                             #To deposit money
                             while True:
-                                balc = input("Enter the amount to deposit: ₹")
+                                balc = input("Enter the amount to deposit: $")
                                 if not balc.isdigit():
                                     print("\nEnter again as ","'",balc,"'"," is not valid!",sep = '')
                                 elif int(balc) < 0:
@@ -95,7 +101,7 @@ while is_running:
                                         
                                     users[user]['balance']+=int(balc)
                                     
-                                    print("\nDeposited ₹",balc," to the account\nRemaining balance: ₹",users[user]['balance'],sep='')
+                                    print("\nDeposited $",balc," to the account\nRemaining balance: $",users[user]['balance'],sep='')
                                     input("(Press <Enter> to continue)")
                                     break
                                     
@@ -106,13 +112,13 @@ while is_running:
                                 if users[user]['balance'] <= 0:
                                     print("\nYou have insufficient funds!")
                                     break
-                                balc = input("Enter the amount to Withdraw: ₹")
+                                balc = input("Enter the amount to Withdraw: $")
                                 if not balc.isdigit():
                                     print("\nEnter again as ","'",balc,"'"," is not valid!",sep = '')
                                 elif int(balc) < 0:
                                     print("\nEnter again as ","'",balc,"'"," is not valid!(as it is negative)",sep = '')
                                 elif int(balc) > users[user]['balance']:
-                                    print("\nInsufficient Funds as you only have ₹",users[user]['balance'],sep='')
+                                    print("\nInsufficient Funds as you only have $",users[user]['balance'],sep='')
                                     
                                 else:
                                     if int(balc) > users[user]['balance']*0.5:
@@ -127,7 +133,7 @@ while is_running:
                                                 if len(users[user]['creditscore']) > 15:
                                                     del users[user]['creditscore'][0]
                                     users[user]['balance'] -= int(balc)
-                                    print("\nWithdrawn ₹",balc," from the account\nRemaining balance: ₹",users[user]['balance'],sep='')
+                                    print("\nWithdrawn $",balc," from the account\nRemaining balance: $",users[user]['balance'],sep='')
                                     input("(Press <Enter> to continue)")
                                     break
                         elif opt == '4':
@@ -135,7 +141,7 @@ while is_running:
                             transferpage = True
                             while transferpage:
                                 if users[user]['balance'] <= 0:
-                                    print("\nYou have insufficient funds!\n you cannot transfer with ₹0 balance!")
+                                    print("\nYou have insufficient funds!\n you cannot transfer with $0 balance!")
                                     transferpage = False
                                     break
                                 transuser = input("Enter the username of the transee: ").lower()
@@ -163,7 +169,7 @@ while is_running:
                                         elif int(balc) < 0:
                                             print("Enter again as ","'",balc,"'"," is not valid!(as it is negative)",sep = '')
                                         elif int(balc) > users[user]['balance']:
-                                            print("Insufficient Funds as you only have ₹",users[user]['balance'],sep='')
+                                            print("Insufficient Funds as you only have $",users[user]['balance'],sep='')
                                             transferpage = False
                                             break
                                         else:
@@ -193,7 +199,7 @@ while is_running:
                                             users[user]['balance'] -= int(balc)
                                             users[transuser]['balance'] += int(balc)
                                             transferpage = False
-                                            print("You have transferred ₹",balc," to the account ",transuser,"\nRemaining balance: ₹",users[user]['balance'],sep='')
+                                            print("You have transferred $",balc," to the account ",transuser,"\nRemaining balance: $",users[user]['balance'],sep='')
                                             input("(Press <Enter> to continue)")
                                             break
                         
@@ -244,7 +250,7 @@ while is_running:
                                 input("(Press <Enter> to continue)")
                             while users[user]['balance'] > 0:
                                 
-                                gambled_money = input("Enter the amount of Money you are betting on: ₹")
+                                gambled_money = input("Enter the amount of Money you are betting on: $")
                                 if not gambled_money.isdigit():
                                     print("Invalid!\nEnter a valid number!")
                                 else:
@@ -279,12 +285,12 @@ while is_running:
                                             winnings = pow(gambled_money,numbers_guessed+1)
                                         users[user]['balance'] -= gambled_money
                                         users[user]['balance'] += winnings
-                                        print("Your winnings: ₹",winnings,"     (˶ᵔ ᵕ ᵔ˶)",sep='',)
-                                        print("Your current balance is ₹",users[user]['balance'],sep='')
+                                        print("Your winnings: $",winnings,"     (˶ᵔ ᵕ ᵔ˶)",sep='',)
+                                        print("Your current balance is $",users[user]['balance'],sep='')
                                         input("(Press <Enter> to continue)")
                                         break
                                     else:
-                                        print("You have insufficient funds!\nRemaining funds: ₹",users[user]['balance'],sep='')
+                                        print("You have insufficient funds!\nRemaining funds: $",users[user]['balance'],sep='')
                                         input("(Press <Enter> to continue)")
                                         break
 
@@ -410,9 +416,9 @@ while is_running:
                 
                 
                 users[user]['creditscore'] = [525]
-                users[user]['balance'] = 5000
+                users[user]['balance'] = 50
                 print("\nYOU HAVE SUCCESSFULLY REGISTERED YOUR USER\nPlease login through the user portal!")
-                print("You have been credited ₹5000 for choosing our bank!\nTHANK YOU!")
+                print("You have been credited $50 for choosing our bank!\nTHANK YOU!")
                 input("(Press Enter to Return Home)")                            
                 
                     
